@@ -1,12 +1,20 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
+#include "hasher.hpp"
 #include <exception>
+#include <fstream>
+#include <iostream>
+#include <json/json.h>
 #include <string>
+#include <unistd.h>
 
 namespace Parser {
 
-    void load(const std::string &);
+    void load(std::unique_ptr<std::string> &);
+    void print_results();
+    void test(const std::string &);
     float get_scan_results();
+
     class JsonException : public std::exception
     {
         private:
