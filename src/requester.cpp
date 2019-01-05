@@ -14,7 +14,7 @@ namespace Requester {
         return size * nmemb;
     }
 
-    std::string set_url(const std::string &api_key, const std::string hash)
+    std::string set_url(const std::string &api_key, const std::string &hash)
     {
         return VIRUS_TOTAL_REPORT_URL + "apikey=" + api_key + "&resource=" + hash;
     }
