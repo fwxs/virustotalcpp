@@ -26,7 +26,7 @@ int main(int argc, char** argv)
         Requester::get_data(url);
         auto write_buffer = Requester::get_write_buffer();
         Parser::load(write_buffer);
-        Parser::print_results();
+        Parser::results();
 
     }
     catch (Hasher::Exception &r_error)
@@ -34,12 +34,19 @@ int main(int argc, char** argv)
         std::cerr << "Error (" << r_error.code() << "): " << r_error.what() << std::endl;
         exit_status = r_error.code();
     }
-    catch(Parser::JsonException &json_error){
-        std::cerr << "Error: " << json_error.what() << std::endl;
+    catch(Parser::JsonException &json_error)
+    {
+        std::cerr << "JsonException: " << json_error.what() << std::endl;
         exit_status = EXIT_FAILURE;
     }
-    catch(std::exception &ex){
-        std::cerr << "Error: " << ex.what() << std::endl;
+    catch(std::runtime_error &r_error)
+    {
+        std::cerr << "Runtime exception: " << r_error.what() << std::endl;
+        exit_status = EXIT_FAILURE;
+    }
+    catch(std::exception &ex)
+    {
+        std::cerr << "Unknown exception: " << ex.what() << std::endl;
         exit_status = EXIT_FAILURE;
     }
 
