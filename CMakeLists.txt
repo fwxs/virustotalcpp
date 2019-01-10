@@ -8,6 +8,6 @@ set(SOURCES
     src/requester.cpp
     src/parser.cpp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lcrypto -lcurl -ljsoncpp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lcrypto -lcurl -ljsoncpp -Os -s")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
