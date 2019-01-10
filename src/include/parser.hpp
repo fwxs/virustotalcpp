@@ -11,8 +11,10 @@
 namespace Parser {
 
     void load(std::unique_ptr<std::string> &);
-    void print_results();
-    float get_scan_results();
+    void results();
+    void malware_results();
+    float get_scan_rate();
+
 
     class JsonException : public std::exception
     {

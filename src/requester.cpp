@@ -2,7 +2,7 @@
 
 namespace Requester {
 
-    static char error_buffer[CURL_ERROR_SIZE];
+    static std::array<char, CURL_ERROR_SIZE> error_buffer;
     static std::string wbuffer;
 
     static size_t writer(char *data, size_t size, size_t nmemb, std::string *writer_data)
@@ -31,18 +31,18 @@ namespace Requester {
         if((code = curl_easy_setopt(*curl_obj, CURLOPT_URL, url.c_str())) != CURLE_OK)
             throw std::runtime_error("Failed setting URL.");
 
-        std::memset(error_buffer, 0, CURL_ERROR_SIZE);
-        if((code = curl_easy_setopt(*curl_obj, CURLOPT_ERRORBUFFER, error_buffer)) != CURLE_OK)
-            throw std::runtime_error("Failed setting URL.");
+        std::memset(&error_buffer, 0, CURL_ERROR_SIZE);
+        if((code = curl_easy_setopt(*curl_obj, CURLOPT_ERRORBUFFER, error_buffer.data())) != CURLE_OK)
+            throw std::runtime_error(std::string("CURLOPT_ERRORBUFFER: ") + error_buffer.data());
 
         if((code = curl_easy_setopt(*curl_obj, CURLOPT_WRITEFUNCTION, Requester::writer)) != CURLE_OK)
-            throw std::runtime_error("Failed writing data to buffer");
+            throw std::runtime_error(std::string("CURLOPT_WRITEFUNCTION: ") + error_buffer.data());
 
         if((code = curl_easy_setopt(*curl_obj, CURLOPT_WRITEDATA, &wbuffer)) != CURLE_OK)
-            throw std::runtime_error("Failed writing data to buffer");
+            throw std::runtime_error(std::string("CURLOPT_WRITEDATA: ") + error_buffer.data());
 
          if((code = curl_easy_perform(*curl_obj)) != CURLE_OK)
-             throw std::runtime_error("curl_easy_perform");
+             throw std::runtime_error(std::string("curl_easy_perform: ") + error_buffer.data());
 
          curl_easy_cleanup(*curl_obj);
     }

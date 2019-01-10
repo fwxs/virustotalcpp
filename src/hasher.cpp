@@ -57,7 +57,11 @@ namespace Hasher {
         if(!File::exists())
         {
             int errsv = errno;
-            throw Hasher::Exception( pathname + " " + std::strerror(errsv), errsv);
+            throw Hasher::Exception(pathname + ": " + std::strerror(errsv), errsv);
+        }
+
+        if(File::size() == 0){
+            throw Hasher::Exception("I won't open a 0 bytes file", EXIT_FAILURE);
         }
 
         // Open the specified file with the binary flag.
@@ -66,7 +70,7 @@ namespace Hasher {
         // Check for errors while opening the file.
         if(!this->ifile_stream.is_open())
         {
-            throw Hasher::Exception(std::string("Can't open ") + filename, EXIT_FAILURE);
+            throw Hasher::Exception(std::string("Can't open ") + filename + ": " + std::strerror(errno), errno);
         }
     }
 

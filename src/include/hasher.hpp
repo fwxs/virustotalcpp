@@ -9,13 +9,10 @@
 #include <iterator>
 #include <memory>
 #include <openssl/evp.h>
-#include <openssl/md5.h>
-#include <openssl/sha.h>
 #include <sstream>
 #include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <vector>
 
 
 namespace Hasher {
